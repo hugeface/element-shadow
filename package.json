@@ -18,13 +18,16 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack",
     "watch": "webpack --watch",
-    "start": "webpack-dev-server --open"
+    "start": "webpack-dev-server --open",
+    "dev": "npm run bootstrap && npm run build:file && cross-env NODE_ENV=development webpack-dev-server --config build/webpack.demo.js & node build/bin/template.js"
   },
   "dependencies": {
     "lodash": "^4.17.15"
   },
   "devDependencies": {
+    "chokidar": "^3.0.2",
     "clean-webpack-plugin": "^3.0.0",
+    "cross-env": "^5.2.0",
     "css-loader": "^3.2.0",
     "csv-loader": "^3.0.2",
     "file-loader": "^4.2.0",
