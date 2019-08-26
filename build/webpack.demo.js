@@ -138,6 +138,13 @@ const webpackConfig = {
    */
   plugins: [
     new webpack.HotModuleReplacementPlugin(), // 热部署
+    /**
+     * html模板所在的文件路径
+     * 根据自己的指定的模板文件来生成特定的 html 文件.
+     * 这里的模板类型可以是任意你喜欢的模板，可以是 html, jade, ejs, hbs, 等等.
+     * 使用自定义的模板文件时，需要提前安装对应的 loader， 否则webpack不能正确解析.
+     * 如果你设置的 title 和 filename于模板中发生了冲突，那么以你的title 和 filename 的配置值为准.
+     */
     new HtmlWebpackPlugin({
       template: './examples/index.tpl', // 模板的相对路径或者绝对路径
       filename: './index.html', // 被创建的HTML文件
