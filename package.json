@@ -20,7 +20,7 @@
     "watch": "webpack --watch",
     "start": "webpack-dev-server --open",
     "bootstrap": "yarn || npm i",
-    "dev": "npm run bootstrap && cross-env NODE_ENV=development webpack-dev-server --config build/webpack.demo.js & node build/bin/template.js"
+    "dev": "cross-env NODE_ENV=development webpack-dev-server --config build/webpack.demo.js & node build/bin/template.js"
   },
   "dependencies": {
     "lodash": "^4.17.15"
@@ -55,7 +55,9 @@
     "progress-bar-webpack-plugin": "^1.11.0",
     "style-loader": "^1.0.0",
     "uglifyjs-webpack-plugin": "^2.1.1",
+    "vue": "2.5.21",
     "vue-loader": "^15.7.0",
+    "vue-router": "^3.0.1",
     "webpack": "^4.39.2",
     "webpack-cli": "^3.3.7",
     "webpack-dev-server": "^3.8.0",

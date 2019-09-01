@@ -21,7 +21,7 @@ const isPlay = !!process.env.PLAY_ENV;
 const webpackConfig = {
   /**
    * 许多 library 将通过与 process.env.NODE_ENV 环境变量关联，以决定 library 中应该引用哪些内容。
-   * 
+   *
    * 例如：
    * 当不处于生产环境中时，某些 library 为了使调试变得容易，可能会添加额外的日志记录(log)和测试(test)。
    * 当使用 process.env.NODE_ENV === 'production' 时，一些 library 可能针对具体用户的环境进行代码优化，从而删除或添加一些重要代码。
@@ -49,7 +49,7 @@ const webpackConfig = {
   },
   /**
    * devServer：用于快速开发应用程序，提供一个简单的 web server，并且具有 live reloading（实时重新加载） 功能
-   * 
+   *
    * 以下配置的含义：将 / 目录下的文件 server 到 0.0.0.0:8085 下
    */
   devServer: {
@@ -79,8 +79,8 @@ const webpackConfig = {
     rules: [
       {
         enforce: 'pre', // 指定规则的种类("pre" | "post")
-        test: /\.(vue|jsx?)$/,  // 标识适用规则的文件类型，Rule.resource.test 的缩写，与 Rule.resource 互斥使用
-        exclude: /node_modules/,  // 标识规则不适用的范围，Rule.resource.exclude 的缩写，与 Rule.resource 互斥使用
+        test: /\.(vue|jsx?)$/, // 标识适用规则的文件类型，Rule.resource.test 的缩写，与 Rule.resource 互斥使用
+        exclude: /node_modules/, // 标识规则不适用的范围，Rule.resource.exclude 的缩写，与 Rule.resource 互斥使用
         loader: 'eslint-loader' // 对模块使用的 loader，类似的还有 parser
       },
       {
@@ -126,7 +126,7 @@ const webpackConfig = {
         test: /\.(svg|otf|ttf|woff2?|eot|gif|png|jpe?g)(\?\S*)?$/,
         loader: 'url-loader',
         // todo: 这种写法有待调整
-        query: {  // Rule.use:[{options}] 的简写
+        query: { // Rule.use:[{options}] 的简写
           limit: 10000,
           name: path.posix.join('static', '[name].[hash:7].[ext]')
         }
