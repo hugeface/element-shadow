@@ -50,11 +50,11 @@ const webpackConfig = {
   /**
    * devServer：用于快速开发应用程序，提供一个简单的 web server，并且具有 live reloading（实时重新加载） 功能
    *
-   * 以下配置的含义：将 / 目录下的文件 server 到 0.0.0.0:8085 下
+   * 以下配置的含义：将 / 目录下的文件 server 到 0.0.0.0:8086 下
    */
   devServer: {
     host: '0.0.0.0',
-    port: 8085,
+    port: 8086,
     publicPath: '/',
     hot: true // 实时重新加载
   },
