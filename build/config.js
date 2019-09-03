@@ -35,12 +35,12 @@ externals = [Object.assign({
 
 exports.externals = externals;
 
-// 配置模块别名来简化模块引用
+// 以下模块适应频率较高，配置模块别名来简化模块引用
 exports.alias = {
-  main: path.resolve(__dirname, '../src'),
-  packages: path.resolve(__dirname, '../packages'),
-  examples: path.resolve(__dirname, '../examples'),
-  'element-ui': path.resolve(__dirname, '../')
+  main: path.resolve(__dirname, '../src'), // 为工程根目录下的 src 模块设置别名"main"
+  packages: path.resolve(__dirname, '../packages'), // 为工程根目录下的 packages 模块设置别名"packages"
+  examples: path.resolve(__dirname, '../examples'), // 为工程根目录下的 examples 模块设置别名"examples"
+  'element-ui': path.resolve(__dirname, '../') // 为工程根目录设置别名"element-ui"
 };
 
 exports.vue = {

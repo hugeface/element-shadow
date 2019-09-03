@@ -84,6 +84,7 @@ import Drawer from '../packages/drawer/index.js';
 import locale from 'element-ui/src/locale';
 import CollapseTransition from 'element-ui/src/transitions/collapse-transition';
 
+// 组件列表
 const components = [
   Pagination,
   Dialog,
@@ -164,10 +165,26 @@ const components = [
   CollapseTransition
 ];
 
+/**
+ * Vue.js 的插件应该暴露一个 install 方法，该方法会在 Vue.use() 中调用时执行。
+ * @param {*} Vue Vue 构造器
+ * @param {*} opts 可选的选项对象
+ *
+ * 常见用途：
+ *  1. 添加全局方法或属性
+ *  2. 添加全局资源
+ *  3. 注入组件选项
+ *  4. 添加实例方法
+ */
 const install = function(Vue, opts = {}) {
-  locale.use(opts.locale);
-  locale.i18n(opts.i18n);
 
+  locale.use(opts.locale); // 国际化设置
+  locale.i18n(opts.i18n); //
+
+  /**
+   * [添加全局资源]：全局注册所有组件
+   * Vue.use() 后 Element 中的组件无需 import 便可在任意其他组件中使用的原因
+   */
   components.forEach(component => {
     Vue.component(component.name, component);
   });
@@ -175,6 +192,7 @@ const install = function(Vue, opts = {}) {
   Vue.use(InfiniteScroll);
   Vue.use(Loading.directive);
 
+  // ？？？
   Vue.prototype.$ELEMENT = {
     size: opts.size || '',
     zIndex: opts.zIndex || 2000

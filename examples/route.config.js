@@ -1,3 +1,6 @@
+/**
+ * 提供路由构建项中的路由记录(routes)
+ */
 import navConfig from './nav.config';
 import langs from './i18n/route';
 

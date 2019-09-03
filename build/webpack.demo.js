@@ -26,11 +26,14 @@ const webpackConfig = {
    * 当不处于生产环境中时，某些 library 为了使调试变得容易，可能会添加额外的日志记录(log)和测试(test)。
    * 当使用 process.env.NODE_ENV === 'production' 时，一些 library 可能针对具体用户的环境进行代码优化，从而删除或添加一些重要代码。
    */
-  mode: process.env.NODE_ENV,
-  entry: isProd ? {
-    docs: './examples/entry.js',
-    'element-ui': './src/index.js'
-  } : (isPlay ? './examples/play.js' : './examples/entry.js'),
+  mode: process.env.NODE_ENV, // process.env 为 node.js 中包含用户环境的对象
+  /**
+   * 根据不同的执行条件选择不同的程序入口
+   * 单页应用(SPA)：一个入口起点；多页应用(MPA)：多个入口起点
+   */
+  entry: isProd
+    ? { docs: './examples/entry.js', 'element-ui': './src/index.js' }
+    : (isPlay ? './examples/play.js' : './examples/entry.js'),
   output: {
     path: path.resolve(process.cwd(), './examples/element-ui/'),
     publicPath: process.env.CI_ENV || '',
@@ -38,8 +41,8 @@ const webpackConfig = {
     chunkFilename: isProd ? '[name].[hash:7].js' : '[name].js'
   },
   /**
-   * resolve: 帮助找到模块的绝对路径
-   * resolve.modules：
+   * resolve: 设置模块如何被解析
+   * resolve.modules：告诉 webpack 解析模块时应搜索的目录
    * resolve.alias：创建 import 或 require 的别名，来确保模块引入变得更简单
    */
   resolve: {

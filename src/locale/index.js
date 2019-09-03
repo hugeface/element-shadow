@@ -7,6 +7,9 @@ const format = Format(Vue);
 let lang = defaultLang;
 let merged = false;
 let i18nHandler = function() {
+  /**
+   * Object.getPrototypeOf() 返回某对象的原型
+   */
   const vuei18n = Object.getPrototypeOf(this || Vue).$t;
   if (typeof vuei18n === 'function' && !!Vue.locale) {
     if (!merged) {
@@ -37,10 +40,12 @@ export const t = function(path, options) {
   return '';
 };
 
+// 用于替换生效的国际化资源
 export const use = function(l) {
-  lang = l || lang;
+  lang = l || lang; // 默认国际化资源为 zh-CN
 };
 
+//
 export const i18n = function(fn) {
   i18nHandler = fn || i18nHandler;
 };
