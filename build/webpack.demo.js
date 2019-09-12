@@ -4,7 +4,12 @@ const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 // 将已存在的文件或者目录拷贝到 build 目录
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-// 简化HTML文件的创建
+/**
+ * 简化 HTML 文件的创建，主要作用：
+ *  1. 根据模板生成 HTML 文件
+ *  2. 给生成的 HTML 文件引入外部资源，比如 link、script 等
+ *  3. 改变每次引入的外部文件的 Hash，防止 HTML 引用缓存中的过时资源
+ */
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
@@ -36,9 +41,20 @@ const webpackConfig = {
     : (isPlay ? './examples/play.js' : './examples/entry.js'),
   output: {
     path: path.resolve(process.cwd(), './examples/element-ui/'),
+    /**
+     * output.publicPath：静态资源的公共路径
+     *
+     * 静态资源最终访问路径 = output.publicPath + 资源 loader 或插件等配置路径，例如：
+     * publicPath 配置为 /dist/，图片 url-loader 配置项为 name: 'img/[name].[ext]'，
+     * 那么最终打包出来文件中图片的引用路径为 output.publicPath + 'img/[name].[ext]' = '/dist/img/[name].[ext]'
+     */
     publicPath: process.env.CI_ENV || '',
+    /**
+     * output.filename：文件的输出名称
+     * [name]表示根据入口文件的名称，打包成相同的名称，有几个入口就可以打包出几个文件
+     */
     filename: '[name].[hash:7].js',
-    chunkFilename: isProd ? '[name].[hash:7].js' : '[name].js'
+    chunkFilename: isProd ? '[name].[hash:7].js' : '[name].js' // 打包后的代码块名称
   },
   /**
    * resolve: 设置模块如何被解析
@@ -146,12 +162,24 @@ const webpackConfig = {
      * 根据自己的指定的模板文件来生成特定的 html 文件.
      * 这里的模板类型可以是任意你喜欢的模板，可以是 html, jade, ejs, hbs, 等等.
      * 使用自定义的模板文件时，需要提前安装对应的 loader， 否则webpack不能正确解析.
-     * 如果你设置的 title 和 filename于模板中发生了冲突，那么以你的title 和 filename 的配置值为准.
+     * 如果你设置的 title 和 filename 于模板中发生了冲突，那么以你的 title 和 filename 的配置值为准.
      */
     new HtmlWebpackPlugin({
-      template: './examples/index.tpl', // 模板的相对路径或者绝对路径
-      filename: './index.html', // 被创建的HTML文件
+      /**
+       * template：要打包输出的模板路径，可以是相对路径或绝对路径
+       */
+      template: './examples/index.tpl', // *.tpl：表示文件为模板文件，是自定义的一种文件格式，功能上等同 HTML
+      filename: './index.html', // 定义打包输出后的 HTML 文件名称
       favicon: './examples/favicon.ico'
+      /**
+       * chunks 配置补充说明 - chunks: ['manifest', 'vendor', 'entry']
+       *
+       * 如果没有配置 chunks 那么生成的 HTML 会引入所有入口 JS 文件，所以要使用 chunks 配置来指定生成的
+       * HTML 文件应该引入哪个 JS 文件
+       *
+       * - vendor 指提取涉及 node_modules 中的公共模块
+       * - manifest 是对 vendor 模块做缓存
+       */
     }),
     new CopyWebpackPlugin([
       { from: 'examples/versions.json' }
@@ -175,7 +203,9 @@ const webpackConfig = {
   devtool: '#eval-source-map'
 };
 
-// 打包生产代码时，启用对资源的压缩优化
+/**
+ * 打包生产代码时(根据 isProd 判断)，启用对资源的压缩优化
+ */
 if (isProd) {
   webpackConfig.externals = {
     vue: 'Vue',
@@ -188,11 +218,13 @@ if (isProd) {
     })
   );
   webpackConfig.optimization.minimizer.push(
+    // 对 Js 文件进行压缩
     new UglifyJsPlugin({
       cache: true,
       parallel: true,
       sourceMap: false
     }),
+    // 优化或者压缩 CSS 资源
     new OptimizeCSSAssetsPlugin({})
   );
   webpackConfig.devtool = false;
