@@ -5,6 +5,20 @@ import navConfig from './nav.config';
 import langs from './i18n/route';
 
 const LOAD_MAP = {
+  /**
+   * 按需加载 和 代码分离
+   *
+   * 1. require：以同步的方式检索其他模块的导出
+   * 2. require.ensure() 是 webpack 特有的，用于进行代码分割，已经被 import() 取代，使用方法
+   *    require.ensure(
+   *      dependencies: String[],         // 字符串构成的数组，声明 callback 回调函数中所需的所有模块
+   *      callback: function(require),    // 只要加载好全部依赖，webpack 就会执行此函数
+   *      errorCallback: function(error), // 当 webpack 加载依赖失败时，会执行此函数
+   *      chunkName: String               // 由 require.ensure() 创建出的 chunk 的名字。通过将同一个 chunkName 传递给不同的 require.ensure() 调用，可以将它们的代码合并到一个单独的 chunk 中，从而只产生一个浏览器必须加载的 bundle
+   *    )
+   *
+   * 下面这段代码实现了按需加载，并将所有 ./pages/zh-CN/ 目录下的文件，打包到 zh-CN.js 中
+   */
   'zh-CN': name => {
     return r => require.ensure([], () =>
       r(require(`./pages/zh-CN/${name}.vue`)),
