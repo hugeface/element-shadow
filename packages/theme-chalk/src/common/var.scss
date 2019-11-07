@@ -4,9 +4,52 @@
 // type|skipAutoTranslation|Category|Order
 // skipAutoTranslation 1
 
+/* --------------------------------------------------------------
+Scss 完全兼容 CSS3 语法新特性，同时继承了 Sass 强大的动态功能：变量、嵌套、引入、混合、继承
+
+1.变量：用来存储需要再 CSS 中复用的信息，通过 $ 符号声明一个变量
+2.嵌套：Sass 允许以嵌套的方式使用 CSS（过度使用嵌套会让 CSS 难以维护）
+3.引入：Sass 能够将代码分割为多个片段，并以 underscore 风格的下划线为其命名前缀（eg. _partial.scss），
+  Sass 会通过这些下划线来辨别哪些文件是 Sass 片段，不然片段内容直接生成为 CSS 文件，从而只是在使用
+  @import 指令的位置被导入。CSS 原生的 @import 会通过额外的 HTTP 请求获取引入的样式片段，而 Sass 的
+  @import 则会直接将这些引入的片段合并至当前 CSS 文件，并且不会产生 HTTP 请求。
+4.混合：用来混合需要在页面中复用的 CSS 声明，通过向 Mixin 传递变量参数来让代码更加灵活（浏览器兼容性前缀）
+  ```
+    @mixin border-radius($radius) {
+              border-radius: $radius;
+          -ms-border-radius: $radius;
+        -moz-border-radius: $radius;
+      -webkit-border-radius: $radius;
+    }
+
+    .box {
+      @include border-radius(10px);
+    }
+  ```
+5.继承：通过 @extend 指令在选择器之间复用 CSS 属性
+  ```
+    // 这段代码不会被输出到最终生成的CSS文件，因为它没有被任何代码所继承。
+    %other-styles {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    // 下面代码会正常输出到生成的CSS文件，因为它被其接下来的代码所继承。
+    %message-common {
+      border: 1px solid #ccc;
+      padding: 10px;
+      color: #333;
+    }
+
+    .message {
+      @extend %message-common;
+    }
+  ```
+(省略其他特性)
+----------------------------------------------------------------- */
 /* Transition
 -------------------------- */
-$--all-transition: all .3s cubic-bezier(.645,.045,.355,1) !default;
+$--all-transition: all .3s cubic-bezier(.645,.045,.355,1) !default; // 给 Scss 变量指定默认值
 $--fade-transition: opacity 300ms cubic-bezier(0.23, 1, 0.32, 1) !default;
 $--fade-linear-transition: opacity 200ms linear !default;
 $--md-fade-transition: transform 300ms cubic-bezier(0.23, 1, 0.32, 1), opacity 300ms cubic-bezier(0.23, 1, 0.32, 1) !default;
